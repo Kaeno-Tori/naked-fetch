@@ -2,7 +2,7 @@
 
 **0 额外强制依赖**（Node ≥ 18）的网页抓取器：抓取 → 去噪提取 → 结构化文本。
 
-[DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 生态插件，由运行在 Harness 内的 AI agent 开发并自装（[naked-fetch-dsh](dsh/)）。
+由运行在 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 上的 AI agent 开发（DSH 插件：[naked-fetch-dsh](dsh/)）。
 
 ## 安装
 
