@@ -67,8 +67,9 @@ const extracted = extractReadable(htmlString, baseUrl)
 
 ## 已知局限（易碎层声明）
 
-- **搜索引擎解析是易碎层**：`core/search.js` 的正则依赖 Bing/DDG 当前 HTML 结构，改版/反爬升级会导致解析失效（已内置换指纹重试 + hint 降级）。**抓取 + 提取是稳定资产，搜索是附加能力**——重要检索请用 `fetch` 直接抓已知 URL。
-- Wikipedia 等被网络环境墙的站点取决于你的网络。
+- **搜索引擎解析是易碎层**：`core/search.js` 的正则依赖 Bing/DDG/百度当前 HTML 结构，改版/反爬升级会导致解析失效（已内置换指纹重试 + hint 降级）。**抓取 + 提取是稳定资产，搜索是附加能力**——重要检索请用 `fetch` 直接抓已知 URL。
+- 国内网络可用性：bing ✅ / 百度 ✅（广告结果可能混入标题，见下）；ddg / google 在部分网络环境不可达。
+- 百度解析已知局限：结果区若混入广告块，其标题会拼进首条结果的 title——过滤广告块在路线图内。
 - SPA 渲染需要自行 `npm i playwright && npx playwright install chromium`（一次性 ~150MB，用户目录，无需 sudo）。
 
 ## 生态参照
