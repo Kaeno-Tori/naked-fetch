@@ -22,7 +22,8 @@
     "cli.js",
     "core/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "examples/"
   ],
   "scripts": {
     "test": "node --test test/*.test.js",

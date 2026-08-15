@@ -21,14 +21,14 @@ npm i -g naked-fetch-dsh        # 或装到 DSH profile 的 node_modules
 
 把你的 agent 指向下面的"自助安装"说明（或直接让它读本 README）：
 
-> 用 `cordis_define`（idPrefix: `webt`，code.host 为 `examples/dsh-plugin.mjs` 的函数体，把 `WEB_TOOL` 改为 `require('naked-fetch/package.json')` 解析出的 cli.js 路径），然后 `cordis_run`。工具立即在当前会话可用；重启后需重装（动态插件不持久）。
+> 用 `cordis_define`（idPrefix: `webt`，code.host 为 `examples/dsh-plugin.mjs` 的函数体，把 `WEB_TOOL` 设为 naked-fetch 包 cli.js 的绝对路径（可在外部用 `createRequire` 解析 `naked-fetch/package.json` 得到）），然后 `cordis_run`。工具立即在当前会话可用；重启后需重装（动态插件不持久）。
 
 ## 工具
 
 | 工具 | 参数 | 说明 |
 |---|---|---|
 | `web_fetch` | url*, timeout, raw, js, engine | 抓取 + AI 去噪提取；SPA 空壳自动渲染兜底（firefox→chromium，Via 模式） |
-| `web_search_bing` | query*, count, engine | 网页搜索（bing/baidu/ddg），无 API key |
+| `web_search_bing` | query*, count, engine | 网页搜索（bing/baidu/ddg/google），无 API key |
 
 ## 设计
 

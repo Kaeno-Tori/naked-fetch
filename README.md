@@ -44,7 +44,7 @@ This domain is for use in documentation examples without needing permission. Avo
 ```js
 import { fetchPage, searchWeb, extractReadable } from 'naked-fetch'
 
-// 抓取 + 提取（SPA 空壳自动尝试 Playwright 兜底）
+// 抓取 + 提取（SPA 空壳自动尝试浏览器渲染兜底（firefox→chromium））
 const page = await fetchPage('https://example.com/article', { timeout: 30 })
 console.log(page.title, page.text, page.spa_suspect)
 
@@ -58,11 +58,11 @@ const extracted = extractReadable(htmlString, baseUrl)
 
 ## 特性
 
-- **完整浏览器指纹**：9 组 UA×sec-ch-ua 联动（Chrome/Edge/Safari/Firefox/移动端），Safari/Firefox 真实不发 sec-ch-ua 所以也不发；`Sec-Fetch-Site/Mode/Dest/User` 模拟地址栏直达；cookie 会话保持；随机轮换
+- **完整浏览器指纹**：9 组 UA×sec-ch-ua 联动（Chrome/Edge/Safari/Firefox/移动端），Safari/Firefox 真实不发 sec-ch-ua 所以也不发；`Sec-Fetch-Site/Mode/Dest/User` 模拟地址栏直达；cookie 会话保持；轮换
 - **防反爬**：1s 全局限速、429/503 指数退避重试、搜索 0 结果自动换指纹重试
 - **SSRF 防护**：拒绝 localhost/内网/保留地址（含云元数据 169.254.169.254）
 - **AI 提取**：`extractReadable` 去噪 + 保结构；`visible` 字段（去链接后字符数）用于 SPA 判定，长 URL 不会虚高
-- **SPA 检测 + 可选渲染（Via 模式：复用系统浏览器内核）**：正文过短 + root/app 特征 → `spa_suspect: true`；自动浏览器渲染兜底，**优先复用系统 Firefox**（`core/gecko.js`，geckodriver + 原生 W3C WebDriver，零第二内核），失败回退 Playwright chromium；未装 geckodriver/chromium 时优雅降级并提示。`--engine firefox|chromium|auto` 可显式指定（Windows 上改 `--engine chromium` 或将来 `channel: msedge`）。
+- **SPA 检测 + 可选渲染**：正文过短 + root/app 特征 → `spa_suspect: true`；自动浏览器渲染兜底（[Via 模式](#浏览器渲染内核via-模式)：复用系统 Firefox，回退 chromium），渲染器缺失时优雅降级并提示。
 - **charset 解码**、5MB 上限、`--json` 结构化输出
 
 ## 浏览器渲染内核（Via 模式）
@@ -88,7 +88,7 @@ tar xzf geckodriver.tar.gz && rm geckodriver.tar.gz
 - **搜索引擎解析是易碎层**：`core/search.js` 的正则依赖 Bing/DDG/百度当前 HTML 结构，改版/反爬升级会导致解析失效（已内置换指纹重试 + hint 降级）。**抓取 + 提取是稳定资产，搜索是附加能力**——重要检索请用 `fetch` 直接抓已知 URL。
 - 国内网络可用性：bing ✅ / 百度 ✅（广告结果可能混入标题，见下）；ddg / google 在部分网络环境不可达。
 - 百度解析已知局限：结果区若混入广告块，其标题会拼进首条结果的 title——过滤广告块在路线图内。
-- SPA 渲染需要自行 `npm i playwright && npx playwright install chromium`（一次性 ~150MB，用户目录，无需 sudo）。
+- SPA 渲染：playwright 已作为 optionalDependency（npm 自动安装），只需 `npx playwright install chromium` 下载内核（一次性 ~150MB，用户目录，无需 sudo）；Node 18 下核心可用、渲染不可用（playwright 要求 Node ≥ 20）。
 
 ## 生态参照
 
@@ -119,4 +119,4 @@ MIT
 
 - 由运行在 [**DeepSeek Harness**](https://github.com/deepseek-ai/deepseek-harness) 上的 AI agent（deepseek-v4-flash）协作开发：指纹层、HTML→AI 提取层、SPA 检测、gecko 引擎、DSH 适配插件均由 agent 在 Harness 环境内编写迭代；人类负责方向与设计决策。
 - 真实案例：本项目的 DSH 插件是 agent **给自己写插件**的产物——工具注册、schema DSL 踩坑、`ctx.tools.register(defineTool(...))` 适配全部在会话内完成。
-- 测试 11 项（提取/SSRF/指纹/Schema）由 agent 编写，`npm test` 全绿。
+- 测试 11 项（提取/SSRF/指纹/SPA 检测）由 agent 编写，`npm test` 全绿。

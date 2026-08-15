@@ -2,7 +2,7 @@
 // 注意：这是全项目最脆弱的部分。Bing/Google 改版或反爬升级都会让正则失效，
 // 保持 hint/降级路径，不要把"搜索"当作与"抓取"同级的稳定资产。
 
-import { httpGet, MIN_REQUEST_INTERVAL } from './fetch.js';
+import { httpGet, MIN_REQUEST_INTERVAL, rateLimitWait } from './fetch.js';
 import { stripHtml, decodeEntities } from './extract.js';
 
 export const ENGINE_TEMPLATES = {
@@ -74,6 +74,7 @@ export async function searchWeb(query, {
   signal,
 } = {}) {
   const start = Date.now();
+  await rateLimitWait(); // 与 fetchPage 共享全局限速时钟
   const url = ENGINE_TEMPLATES[engine] ? ENGINE_TEMPLATES[engine](query) : ENGINE_TEMPLATES.bing(query);
   let r = await httpGet(url, { timeout, signal, startTime: start });
   if (!r.success) {

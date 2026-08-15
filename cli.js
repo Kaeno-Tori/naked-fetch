@@ -80,7 +80,7 @@ else {
   naked-fetch extract <url> [--timeout N] [--json]   # 同 fetch（默认行为）
 
 特性:
-  - 完整浏览器指纹：UA×sec-ch-ua 联动池、Sec-Fetch-*、cookie 会话、随机轮换
+  - 完整浏览器指纹：UA×sec-ch-ua 联动池、Sec-Fetch-*、cookie 会话、轮换
   - 防反爬：1s 限速、429/503 指数退避重试、搜索 0 结果自动换指纹重试
   - SSRF 防护：拒绝内网/保留地址
   - AI 提取：去噪（head/script/nav/footer/aside）、保留标题层级/链接/表格/列表/代码

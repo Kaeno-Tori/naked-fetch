@@ -1,14 +1,18 @@
 // examples/dsh-plugin.mjs — 把 naked-fetch 注册为 DeepSeek Harness 动态工具
 //
-// 这是真实运行过的接入代码（webt-1 插件），说明：
-//   - harness.defineTool() 包装后 harness.registerTool(ctx, tool) 注册
+// 真实运行过的接入代码（webt-1 插件）。注意：这是【动态插件】路径（agent 用
+// cordis_define 自助安装，沙箱注入 harness builtin）；【bundle 插件】路径
+// （profile 安装，npm 包）用 ctx.tools.register(defineTool(...))，见 dsh/index.js。
+//
+//   - 动态路径：harness.defineTool() 包装后 harness.registerTool(ctx, tool) 注册
 //   - 工具注册自动随插件 Fiber 撤销（stop/update 即移除）
 //   - schema DSL 约束：不用 minimum/maximum；output.schema 的 object 必须显式
 //     additionalProperties；parameters 根必须保持开放（与 output.schema 相反）
 //   - execute 用 ctx.subprocess 服务 spawn node cli.js --json，exec.signal 绑定进程树终止
 //
 // 在 DSH 会话中用 cordis_define 定义（code.host 为此函数体），cordis_run 激活。
-// 使用前把 WEB_TOOL 指向你本项目的 cli.js 绝对路径。
+// 使用前把 WEB_TOOL 设为 naked-fetch 包 cli.js 的绝对路径
+// （外部可用 createRequire 解析 'naked-fetch/package.json' 得到）。
 
 const WEB_TOOL = '/absolute/path/to/naked-fetch/cli.js'
 
@@ -51,7 +55,8 @@ return {
           url: { type: 'string', description: '目标网页 URL' },
           timeout: { type: 'number', description: '超时秒数，默认 30' },
           raw: { type: 'boolean', description: 'true 返回原始 HTML', default: false },
-          js: { type: 'boolean', description: 'true 强制浏览器渲染（需 playwright）', default: false },
+          js: { type: 'boolean', description: 'true 强制浏览器渲染', default: false },
+          engine: { type: 'string', description: '渲染引擎：auto|firefox|chromium', default: 'auto' },
         },
         required: ['url'],
       },
@@ -63,10 +68,15 @@ return {
             success: { type: 'boolean' },
             url: { type: 'string' },
             status_code: { type: 'number' },
+            content_type: { type: 'string' },
             duration_ms: { type: 'number' },
+            retries: { type: 'number' },
+            render_used: { type: 'boolean' },
+            render_engine: { type: 'string' },
             title: { type: 'string' },
             description: { type: 'string' },
             words: { type: 'number' },
+            visible: { type: 'number' },
             links: { type: 'number' },
             spa_suspect: { type: 'boolean' },
             text: { type: 'string' },
@@ -89,6 +99,7 @@ return {
         if (args.timeout) a.push('--timeout', String(args.timeout))
         if (args.raw) a.push('--raw')
         if (args.js) a.push('--js')
+        if (args.engine) a.push('--engine', String(args.engine))
         return runWebTool(a, exec.signal)
       },
       timeoutMs: 90000,

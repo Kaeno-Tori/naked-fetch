@@ -1,6 +1,6 @@
 // core/gecko.js — 复用系统 Firefox 内核（Via 模式）
 // 零依赖：原生 W3C WebDriver 协议（geckodriver 提供 HTTP 服务，node fetch 直接对话），
-// 不引入 selenium。需要系统装有 Firefox + geckodriver 二进制（npm i geckodriver 或系统包）。
+// 不引入 selenium。需要系统装有 Firefox + geckodriver 二进制（下载到项目 bin/ 或 pacman 安装，见 README）。
 //
 // 与 core/browser.js（playwright chromium）同构：返回 {success,url,status_code,content,...}。
 
