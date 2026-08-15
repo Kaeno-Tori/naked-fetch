@@ -1,0 +1,45 @@
+{
+  "name": "web-tool",
+  "version": "0.1.0",
+  "description": "AI 专属网页抓取器：零依赖 Node CLI/库，完整浏览器指纹 + HTML→AI 友好文本提取 + SPA 检测 + 可选 Playwright 渲染",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "web-tool": "cli.js"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./core/fingerprint": "./core/fingerprint.js",
+    "./core/extract": "./core/extract.js",
+    "./core/fetch": "./core/fetch.js",
+    "./core/search": "./core/search.js",
+    "./core/browser": "./core/browser.js"
+  },
+  "files": [
+    "index.js",
+    "cli.js",
+    "core/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "lint": "node --check cli.js && node --check index.js && node --check core/*.js"
+  },
+  "keywords": [
+    "web",
+    "scraper",
+    "crawler",
+    "fetch",
+    "search",
+    "ai",
+    "llm",
+    "readability",
+    "fingerprint",
+    "zero-dependency"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
