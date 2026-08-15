@@ -1,6 +1,6 @@
 # naked-fetch-dsh — DeepSeek Harness 适配插件
 
-把 [naked-fetch](../README.md)（零依赖 AI 网页抓取器）注册为 DSH agent 的 **`web_fetch`** / **`web_search_bing`** 两个工具。
+把 [naked-fetch](../README.md)（0 额外强制依赖的 AI 网页抓取器）注册为 DSH agent 的 **`web_fetch`** / **`web_search_bing`** 两个工具。
 
 ## 安装（两种方式）
 

@@ -71,7 +71,7 @@ const sub = args._[0];
 if (sub === "fetch" || sub === "extract") await cmdFetch(args);
 else if (sub === "search") await cmdSearch(args);
 else {
-  console.log(`naked-fetch — AI 专属网页抓取器（零依赖核心，Node >= 18）
+  console.log(`naked-fetch — AI 专属网页抓取器（0 额外强制依赖核心，Node >= 18）
 
 用法:
   naked-fetch fetch <url> [--timeout N] [--raw] [--js] [--no-auto-js] [--json]

@@ -1,6 +1,6 @@
 # naked-fetch — AI 专属网页抓取器
 
-零依赖（Node ≥ 18）的网页抓取器，**为 LLM/AI 设计**：抓取 → 去噪提取 → 结构化文本，让模型直接"读懂"网页。
+**0 额外强制依赖**（Node ≥ 18）的网页抓取器，**为 LLM/AI 设计**：抓取 → 去噪提取 → 结构化文本，让模型直接"读懂"网页。
 
 ```
 抓取（完整浏览器指纹） → 提取（AI 友好文本） → 分析（交给 LLM）
@@ -11,13 +11,13 @@
 | 通用爬虫 | naked-fetch |
 |---|---|
 | 输出原始 HTML/JSON，模型自己解析 | 输出**去噪 markdown 风格文本**：标题层级/链接/表格/列表保留，script/nav/footer/aside 删除 |
-| 反爬靠无头浏览器渲染（重、慢） | **指纹伪装**（UA×sec-ch-ua 联动、Sec-Fetch-*、cookie 会话）+ 限速重试，零依赖 |
+| 反爬靠无头浏览器渲染（重、慢） | **指纹伪装**（UA×sec-ch-ua 联动、Sec-Fetch-*、cookie 会话）+ 限速重试，零强制依赖 |
 | 渲染成图给模型"看" | 模型读文本就够——**渲染白瞎**，只有 SPA 空壳才需要 JS 执行（可选 Playwright） |
 
 ## 安装
 
 ```sh
-npm i naked-fetch          # 或 npx naked-fetch ...（CLI 零安装）
+npm i naked-fetch          # 安装 0 个强制依赖（playwright 为 optional）
 ```
 
 ## CLI
@@ -71,7 +71,7 @@ const extracted = extractReadable(htmlString, baseUrl)
 
 | 平台 | 复用对象 | 方式 |
 |---|---|---|
-| Linux | 系统 Firefox（默认浏览器） | geckodriver + W3C WebDriver（零依赖协议） |
+| Linux | 系统 Firefox（默认浏览器） | geckodriver + W3C WebDriver（原生协议，无第三方库） |
 | Windows | 系统 Edge（Chromium 内核） | Playwright `channel: 'msedge'`（规划中） |
 | 兜底 | Playwright chromium | `npx playwright install chromium`（一次性下载） |
 
@@ -92,7 +92,7 @@ tar xzf geckodriver.tar.gz && rm geckodriver.tar.gz
 
 ## 生态参照
 
-与 readability / trafilatura / firecrawl / Jina Reader 定位相近，差异点：**零依赖、完整指纹伪装、引擎可换、输出专为模型 token 预算优化**。
+与 readability / trafilatura / firecrawl / Jina Reader 定位相近，差异点：**零强制依赖、完整指纹伪装、引擎可换、输出专为模型 token 预算优化**。
 
 ## DSH（DeepSeek Harness）集成
 
@@ -107,7 +107,7 @@ npm run lint      # 语法检查
 
 ## 路线
 
-- [ ] 提取层接入 cheerio/parse5 备选（当前零依赖正则对常见页面够用）
+- [ ] 提取层接入 cheerio/parse5 备选（当前正则实现对常见页面够用，无第三方库）
 - [ ] 更鲁棒的搜索解析（多引擎结构探测）
 - [ ] 并发抓取（遵守限速）
 
