@@ -24,7 +24,8 @@
   ],
   "scripts": {
     "test": "node --test test/*.test.js",
-    "lint": "node --check cli.js && node --check index.js && node --check core/*.js"
+    "lint": "node --check cli.js && node --check index.js && node --check core/*.js",
+    "build:extension": "node scripts/build-extension.mjs"
   },
   "keywords": [
     "web",

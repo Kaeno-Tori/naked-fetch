@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "web-tool 提取器",
+  "version": "0.1.0",
+  "description": "复用真实浏览器指纹的 AI 网页提取：提取当前页 / 抓取任意 URL → 去噪文本（标题层级/链接/表格）",
+  "permissions": ["activeTab", "contextMenus", "storage", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "scripts": ["lib/extract-global.js", "background.js"]
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "web-tool"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["lib/extract-global.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "webtool-extractor@web-tool.local",
+      "strict_min_version": "128.0"
+    }
+  }
+}
