@@ -15,13 +15,24 @@ let _sessionId = null;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-/** 找到 geckodriver 可执行文件：项目 bin/ → npm 包装 → PATH。 */
+/**
+ * 找到 geckodriver 可执行文件。逐级向上找 bin/geckodriver：
+ *   - 内嵌场景（dsh/vendor/core → ../../bin，即 dsh/bin）
+ *   - 主仓库场景（core → ../bin）
+ *   - node_modules/.bin（npm 包装）
+ *   - PATH 兜底
+ */
 function findGeckodriver() {
   const here = dirname(fileURLToPath(import.meta.url));
-  const projectBin = join(here, '..', 'bin', 'geckodriver');
-  if (existsSync(projectBin)) return projectBin;
-  const npmBin = join(here, '..', 'node_modules', '.bin', 'geckodriver');
-  if (existsSync(npmBin)) return npmBin;
+  const candidates = [];
+  for (let depth = 0; depth <= 2; depth++) {
+    const base = depth === 0 ? here : join(here, ...Array(depth).fill('..'));
+    candidates.push(join(base, 'bin', 'geckodriver'));
+  }
+  candidates.push(join(here, '..', 'node_modules', '.bin', 'geckodriver'));
+  for (const p of candidates) {
+    if (existsSync(p)) return p;
+  }
   return 'geckodriver'; // 走 PATH
 }
 

@@ -28,10 +28,13 @@ export async function pickRenderEngine(prefer = 'auto') {
     const { join, dirname } = await import('node:path');
     const { fileURLToPath } = await import('node:url');
     const here = dirname(fileURLToPath(import.meta.url));
-    const candidates = [
-      join(here, 'bin', 'geckodriver'),
-      join(here, 'node_modules', '.bin', 'geckodriver'),
-    ];
+    // 逐级向上找 bin/geckodriver（主仓库 / 内嵌 dsh/vendor → ../../bin）
+    const candidates = [];
+    for (let depth = 0; depth <= 2; depth++) {
+      const base = depth === 0 ? here : join(here, ...Array(depth).fill('..'));
+      candidates.push(join(base, 'bin', 'geckodriver'));
+    }
+    candidates.push(join(here, 'node_modules', '.bin', 'geckodriver'));
     const hasDriver = candidates.some((p) => existsSync(p));
     const hasFirefox = await import('node:child_process').then(({ execFileSync }) => {
       try { execFileSync('firefox', ['--version'], { stdio: 'ignore' }); return true; } catch { return false; }
