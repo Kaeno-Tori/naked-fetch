@@ -38,6 +38,27 @@ export function extractDdg(html, maxResults) {
   return results;
 }
 
+// 百度：h3 结果标题；a 的 mu 属性携带真实 URL（href 是 baidu.com/link 跳转）；摘要取 c-abstract。
+// 百度结构同样会漂移——保持 hint 降级路径。
+const BAIDU_H3_RE = /<h3[^>]*>[\s\S]*?<a[^>]+(?:mu="([^"]*)")?[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a><\/h3>/gi;
+
+export function extractBaidu(html, maxResults) {
+  const results = [];
+  for (const m of html.matchAll(BAIDU_H3_RE)) {
+    const realUrl = m[1] || m[2]; // mu 优先（真实 URL），否则用跳转链接
+    const title = decodeEntities(stripHtml(m[3])).replace(/\s+/g, " ").trim();
+    if (!realUrl || !title) continue;
+    const after = html.slice(m.index, m.index + 3000);
+    const abs = after.match(/c-abstract[^>]*>([\s\S]*?)<\/div>|<span class="content-right[^"]*"[^>]*>([\s\S]*?)<\/span>/i);
+    const snippet = abs
+      ? decodeEntities(stripHtml(abs[1] || abs[2] || "")).replace(/\s+/g, " ").trim()
+      : "";
+    results.push({ title, url: realUrl, snippet });
+    if (results.length >= maxResults) break;
+  }
+  return results;
+}
+
 /**
  * 执行一次搜索。默认 bing；0 结果自动换指纹重试一次（反爬误伤时常见）。
  * @param {string} query
@@ -56,13 +77,17 @@ export async function searchWeb(query, {
   if (!r.success) {
     return { success: false, query, error: r.error || String(r.status_code), results: [], result_count: 0, duration_ms: Date.now() - start, engine, search_url: url };
   }
-  let results = engine === "ddg" ? extractDdg(r.content, count) : extractBing(r.content, count);
+  let results = engine === "ddg" ? extractDdg(r.content, count)
+    : engine === "baidu" ? extractBaidu(r.content, count)
+    : extractBing(r.content, count);
   if (results.length === 0) {
     // 换指纹重试一次
     await new Promise((res) => setTimeout(res, MIN_REQUEST_INTERVAL));
     r = await httpGet(url, { timeout, signal, startTime: start });
     if (r.success) {
-      results = engine === "ddg" ? extractDdg(r.content, count) : extractBing(r.content, count);
+      results = engine === "ddg" ? extractDdg(r.content, count)
+        : engine === "baidu" ? extractBaidu(r.content, count)
+        : extractBing(r.content, count);
     }
   }
   return {
