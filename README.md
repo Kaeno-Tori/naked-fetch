@@ -1,6 +1,7 @@
 # naked-fetch — 极简智能体浏览器
 
 **0 额外强制依赖**（Node ≥ 18）的网页抓取器：抓取 → 去噪提取 → 结构化文本。
+为**本地模型 / 无 API 场景**设计——搜索与抓取都不需要任何 API key。
 
 由运行在 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 上的 AI agent 开发（DSH 插件：[naked-fetch-dsh](dsh/)）。
 
