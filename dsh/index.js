@@ -59,30 +59,6 @@ export function apply(ctx, config) {
     }
   }
 
-  const fetchSchema = {
-    type: 'object',
-    additionalProperties: false,
-    properties: {
-      success: { type: 'boolean' },
-      url: { type: 'string' },
-      status_code: { type: 'number' },
-      content_type: { type: 'string' },
-      duration_ms: { type: 'number' },
-      retries: { type: 'number' },
-      render_used: { type: 'boolean' },
-      render_engine: { type: 'string' },
-      title: { type: 'string' },
-      description: { type: 'string' },
-      words: { type: 'number' },
-      visible: { type: 'number' },
-      links: { type: 'number' },
-      spa_suspect: { type: 'boolean' },
-      text: { type: 'string' },
-      hint: { type: 'string' },
-      render_error: { type: 'string' },
-    },
-  }
-
   const webFetch = {
     name: 'web_fetch',
     description: '抓取网页并提取为 AI 友好的去噪文本（标题层级/链接/表格/列表）。内置完整浏览器指纹、SSRF 防护、限速重试；SPA 空壳自动提示，js=true 强制浏览器渲染（Firefox/Playwright，Via 模式复用系统内核）。',
