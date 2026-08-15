@@ -42,7 +42,8 @@ function ensureDriver() {
   const bin = findGeckodriver();
   const port = 4444 + Math.floor(Math.random() * 100); // 避开占用
   _driverProc = spawn(bin, ['--port', String(port), '--log', 'warn'], {
-    stdio: ['ignore', 'ignore', 'pipe'],
+    // 全 ignore：避免 pipe 持有导致主进程不退出（CLI 场景 hang）
+    stdio: ['ignore', 'ignore', 'ignore'],
   });
   const base = `http://127.0.0.1:${port}`;
   _driverBase = (async () => {

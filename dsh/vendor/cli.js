@@ -5,7 +5,7 @@
 //   naked-fetch search <query> [--count N] [--engine bing|ddg|google|baidu] [--json]
 //   naked-fetch extract <url> [--timeout N] [--json]   # 同 fetch（默认行为）
 
-import { fetchPage, searchWeb } from './index.js';
+import { fetchPage, searchWeb, shutdownFirefoxDriver } from './index.js';
 
 async function cmdFetch(args) {
   const url = args._[1];
@@ -92,3 +92,6 @@ else {
   import { fetchPage, searchWeb, extractReadable } from 'naked-fetch'
 `);
 }
+
+// CLI 收尾：清理 geckodriver/Firefox 子进程（避免 pipe 残留导致主进程不退出）
+await shutdownFirefoxDriver();
