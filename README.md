@@ -1,6 +1,6 @@
 # naked-fetch — 极简智能体浏览器
 
-![npm](https://img.shields.io/npm/v/naked-fetch) ![npm](https://img.shields.io/npm/dm/naked-fetch) ![license](https://img.shields.io/npm/l/naked-fetch)
+![GitHub stars](https://img.shields.io/github/stars/Kaeno-Tori/naked-fetch) ![license](https://img.shields.io/github/license/Kaeno-Tori/naked-fetch)
 
 
 **0 额外强制依赖**（Node ≥ 18）的极简智能体浏览器：抓取 → 去噪提取 → 结构化文本，让智能体直接"读懂"网页。
@@ -29,11 +29,14 @@ npm i naked-fetch-dsh
 
 装好后 agent 获得 `web_fetch`（抓取 + AI 去噪提取）与 `web_search_bing`（无 API key 搜索）两个工具。
 
-## 安装
+## 安装（GitHub 分发，无 npm）
 
 ```sh
-npm i naked-fetch          # 安装 0 个强制依赖（playwright 为 optional）
+git clone https://github.com/Kaeno-Tori/naked-fetch.git
+./naked-fetch/cli.js fetch <url>   # 或 ln -s 到 PATH
 ```
+
+零安装理念：主包是单目录 Node 代码，**不需要 npm 安装**。唯一的 npm 包是 DSH 插件 [naked-fetch-dsh](dsh/)（自带引擎内嵌，一条命令装完）。
 
 ## CLI
 

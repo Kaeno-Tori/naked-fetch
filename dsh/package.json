@@ -1,17 +1,15 @@
 {
   "name": "naked-fetch-dsh",
   "version": "0.1.0",
-  "description": "DeepSeek Harness 插件：把 naked-fetch（0 额外强制依赖的 智能体浏览器）注册为 web_fetch / web_search_bing 工具",
+  "description": "DeepSeek Harness 插件：极简智能体浏览器（naked-fetch）→ web_fetch / web_search_bing 工具，自带引擎零外部依赖",
   "type": "module",
   "main": "index.js",
   "files": [
     "index.js",
     "cordis.patch.yml",
+    "vendor/",
     "README.md"
   ],
-  "dependencies": {
-    "naked-fetch": "^0.1.0"
-  },
   "peerDependencies": {
     "@deepseek-ai/cordis": "*",
     "@deepseek-ai/dsh-tools": "*"

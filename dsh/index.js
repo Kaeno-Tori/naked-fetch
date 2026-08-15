@@ -1,34 +1,28 @@
 // naked-fetch-dsh — DeepSeek Harness 插件
-// 把 naked-fetch（零依赖 AI 网页抓取器）注册为 web_fetch / web_search_bing 两个工具。
+// 把 naked-fetch（极简智能体浏览器）注册为 web_fetch / web_search_bing 两个工具。
 //
 // 函数插件格式（与 DSH 官方包同构）：
 //   export const name / inject / Config / apply
-// 注册路径：ctx.tools.register(ToolDefinition)——与 @deepseek-ai/dsh-tool-cordis 同构。
+// 注册路径：ctx.tools.register(defineTool(...))——与 @deepseek-ai/dsh-tool-cordis 同构。
 //
-// 依赖：naked-fetch（npm 主包），通过 createRequire 定位其 cli.js。
+// 引擎代码内嵌在 vendor/（index.js/cli.js/core/，由 scripts/sync-dsh-core.mjs 从主仓库同步），
+// 因此本包零外部依赖——npm i naked-fetch-dsh 即自带全部代码。
 
-import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { defineTool } from '@deepseek-ai/dsh-tools'
 
 export const name = 'naked-fetch-dsh'
 export const inject = ['tools', 'subprocess']
 
-/** 插件配置：webToolPath 覆盖 cli.js 定位（默认取依赖 naked-fetch 包内 cli.js）。 */
+/** 插件配置：webToolPath 覆盖 cli.js 定位（默认取包内 vendor/cli.js）。 */
 export const Config = {
   webToolPath: '',
 }
 
 export function apply(ctx, config) {
-  const require = createRequire(import.meta.url)
-
-  function locateCli() {
-    if (config?.webToolPath) return config.webToolPath
-    // naked-fetch 主包导出 ./package.json（见其 exports）
-    const pkgPath = require.resolve('naked-fetch/package.json')
-    return join(dirname(pkgPath), 'cli.js')
-  }
-  const WEB_TOOL = locateCli()
+  const WEB_TOOL = config?.webToolPath
+    || join(dirname(fileURLToPath(import.meta.url)), 'vendor', 'cli.js')
   const WEB_TOOL_DIR = dirname(WEB_TOOL)
 
   async function runWebTool(argsList, signal) {
