@@ -1,21 +1,13 @@
-# naked-fetch — AI 专属网页抓取器
+# naked-fetch — 极简智能体浏览器
 
 ![npm](https://img.shields.io/npm/v/naked-fetch) ![npm](https://img.shields.io/npm/dm/naked-fetch) ![license](https://img.shields.io/npm/l/naked-fetch)
 
 
-**0 额外强制依赖**（Node ≥ 18）的网页抓取器，**为 LLM/AI 设计**：抓取 → 去噪提取 → 结构化文本，让模型直接"读懂"网页。
+**0 额外强制依赖**（Node ≥ 18）的极简智能体浏览器：抓取 → 去噪提取 → 结构化文本，让智能体直接"读懂"网页。
 
 ```
-抓取（完整浏览器指纹） → 提取（AI 友好文本） → 分析（交给 LLM）
+抓取（完整浏览器指纹） → 提取（结构化文本） → 分析（交给智能体）
 ```
-
-## 为什么是"AI 专属"
-
-| 通用爬虫 | naked-fetch |
-|---|---|
-| 输出原始 HTML/JSON，模型自己解析 | 输出**去噪 markdown 风格文本**：标题层级/链接/表格/列表保留，script/nav/footer/aside 删除 |
-| 反爬靠无头浏览器渲染（重、慢） | **指纹伪装**（UA×sec-ch-ua 联动、Sec-Fetch-*、cookie 会话）+ 限速重试，零强制依赖 |
-| 渲染成图给模型"看" | 模型读文本就够——**渲染白瞎**，只有 SPA 空壳才需要 JS 执行（可选 Playwright） |
 
 ## 由 DSH（DeepSeek Harness）自己安装
 
