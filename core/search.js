@@ -38,13 +38,15 @@ export function extractDdg(html, maxResults) {
   return results;
 }
 
-// 百度：h3 结果标题；a 的 mu 属性携带真实 URL（href 是 baidu.com/link 跳转）；摘要取 c-abstract。
+// 百度：容器级匹配。真实结果容器 class 为 "result c-container"，广告/推广是
+// "result-op" / "_3rqxpq2 fc-*"——按容器 class 精确过滤广告。
+// a 的 mu 属性携带真实 URL（href 是 baidu.com/link 跳转）；摘要取 c-abstract。
 // 百度结构同样会漂移——保持 hint 降级路径。
-const BAIDU_H3_RE = /<h3[^>]*>[\s\S]*?<a[^>]+(?:mu="([^"]*)")?[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a><\/h3>/gi;
+const BAIDU_RESULT_RE = /<div[^>]*class="result c-container[^"]*"[^>]*>[\s\S]*?<h3[^>]*>[\s\S]*?<a[^>]+(?:mu="([^"]*)")?[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a><\/h3>/gi;
 
 export function extractBaidu(html, maxResults) {
   const results = [];
-  for (const m of html.matchAll(BAIDU_H3_RE)) {
+  for (const m of html.matchAll(BAIDU_RESULT_RE)) {
     const realUrl = m[1] || m[2]; // mu 优先（真实 URL），否则用跳转链接
     const title = decodeEntities(stripHtml(m[3])).replace(/\s+/g, " ").trim();
     if (!realUrl || !title) continue;
