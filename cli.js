@@ -30,7 +30,7 @@ async function cmdFetch(args) {
   }
   if (args.json) { console.log(JSON.stringify(r)); return; }
   console.log(`URL: ${r.url}`);
-  console.log(`状态: ${r.status_code} | 类型: ${r.content_type} | 耗时: ${r.duration_ms}ms | 重试: ${r.retries}${r.render_used ? " | 渲染: Playwright" : ""}`);
+  console.log(`状态: ${r.status_code} | 类型: ${r.content_type} | 耗时: ${r.duration_ms}ms | 重试: ${r.retries}${r.render_used ? ` | 渲染: ${r.render_engine || 'browser'}` : ""}`);
   if (r.title) console.log(`标题: ${r.title}`);
   if (r.description) console.log(`描述: ${r.description.slice(0, 160)}`);
   console.log(`正文: ${r.words} 词 | ${r.links} 链接${r.spa_suspect ? " | ⚠️ 疑似 SPA 空壳" : ""}`);
