@@ -1,0 +1,9 @@
+# web-tool-dsh bundle patch: one insert over the profile root.
+# 安装后 profile 里出现 web_fetch / web_search_bing 两个工具。
+# config.webToolPath 可覆盖 web-tool cli.js 的定位（默认取依赖包内路径）。
+
+- insert:
+    - id: web-tool
+      name: 'web-tool-dsh'
+      config:
+        webToolPath: ''

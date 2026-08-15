@@ -1,0 +1,38 @@
+{
+  "name": "web-tool-dsh",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness 插件：把 web-tool（零依赖 AI 网页抓取器）注册为 web_fetch / web_search_bing 工具",
+  "type": "module",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "dependencies": {
+    "web-tool": "^0.1.0"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*",
+    "@deepseek-ai/dsh-tools": "*"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "cordis",
+    "web",
+    "scraper",
+    "search",
+    "ai",
+    "llm"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}

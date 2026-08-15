@@ -9,11 +9,13 @@
   },
   "exports": {
     ".": "./index.js",
+    "./package.json": "./package.json",
     "./core/fingerprint": "./core/fingerprint.js",
     "./core/extract": "./core/extract.js",
     "./core/fetch": "./core/fetch.js",
     "./core/search": "./core/search.js",
-    "./core/browser": "./core/browser.js"
+    "./core/browser": "./core/browser.js",
+    "./core/gecko": "./core/gecko.js"
   },
   "files": [
     "index.js",
@@ -42,7 +44,7 @@
   "engines": {
     "node": ">=18"
   },
-  "dependencies": {
+  "optionalDependencies": {
     "playwright": "^1.62.1"
   }
 }
