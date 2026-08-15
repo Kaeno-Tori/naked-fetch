@@ -1,6 +1,6 @@
 {
   "name": "naked-fetch-dsh",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "DeepSeek Harness 插件：极简智能体浏览器（naked-fetch）→ web_fetch / web_search_bing 工具，自带引擎零外部依赖",
   "type": "module",
   "main": "index.js",
@@ -12,7 +12,8 @@
   ],
   "peerDependencies": {
     "@deepseek-ai/cordis": "*",
-    "@deepseek-ai/dsh-tools": "*"
+    "@deepseek-ai/dsh-tools": "*",
+    "@deepseek-ai/schemastery": "*"
   },
   "dsh": {
     "bundle": {

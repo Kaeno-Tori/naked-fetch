@@ -10,15 +10,16 @@
 
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import z from '@deepseek-ai/schemastery'
 import { defineTool } from '@deepseek-ai/dsh-tools'
 
 export const name = 'naked-fetch-dsh'
 export const inject = ['tools', 'subprocess']
 
-/** 插件配置：webToolPath 覆盖 cli.js 定位（默认取包内 vendor/cli.js）。 */
-export const Config = {
-  webToolPath: '',
-}
+/** 插件配置：webToolPath 覆盖 cli.js 定位（默认取包内 vendor/cli.js）。Cordis 要求 Config 是 schemastery schema（含 ~standard 校验器），不能用普通对象。 */
+export const Config = z.object({
+  webToolPath: z.string().default(''),
+})
 
 export function apply(ctx, config) {
   const WEB_TOOL = config?.webToolPath
