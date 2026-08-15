@@ -19,6 +19,14 @@ npm i naked-fetch-dsh
 # ~/.dsh/profiles/<profile>/package.json → dsh.profile.bundles 加 "naked-fetch-dsh"
 ```
 
+装好后 agent 获得 `web_fetch`（抓取+提取）与 `web_search_bing`（无 key 搜索）两个工具。
+
+## DeepSeek Harness 集成
+
+- **bundle 安装**（推荐）：`npm i naked-fetch-dsh`，profile `dsh.profile.bundles` 加一行，重启 dsh 后所有会话可用（见上）
+- **agent 自助**：把 [examples/dsh-plugin.mjs](examples/dsh-plugin.mjs) 交给 agent，`cordis_define` + `cordis_run` 即可在当前会话启用
+- 关键词：`deepseek-harness` / `dsh` / `agent-tools`（npm & GitHub 可搜）
+
 ## 用法
 
 ```sh
