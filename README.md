@@ -62,8 +62,26 @@ const extracted = extractReadable(htmlString, baseUrl)
 - **防反爬**：1s 全局限速、429/503 指数退避重试、搜索 0 结果自动换指纹重试
 - **SSRF 防护**：拒绝 localhost/内网/保留地址（含云元数据 169.254.169.254）
 - **AI 提取**：`extractReadable` 去噪 + 保结构；`visible` 字段（去链接后字符数）用于 SPA 判定，长 URL 不会虚高
-- **SPA 检测 + 可选渲染**：正文过短 + root/app 特征 → `spa_suspect: true`；自动用 Playwright headless Chromium 兜底（输出仍是文本）；未装 playwright 时优雅降级并提示
+- **SPA 检测 + 可选渲染（Via 模式：复用系统浏览器内核）**：正文过短 + root/app 特征 → `spa_suspect: true`；自动浏览器渲染兜底，**优先复用系统 Firefox**（`core/gecko.js`，geckodriver + 原生 W3C WebDriver，零第二内核），失败回退 Playwright chromium；未装 geckodriver/chromium 时优雅降级并提示。`--engine firefox|chromium|auto` 可显式指定（Windows 上改 `--engine chromium` 或将来 `channel: msedge`）。
 - **charset 解码**、5MB 上限、`--json` 结构化输出
+
+## 浏览器渲染内核（Via 模式）
+
+本工具**不打包浏览器内核**——像安卓 Via 一样复用系统已有的：
+
+| 平台 | 复用对象 | 方式 |
+|---|---|---|
+| Linux | 系统 Firefox（默认浏览器） | geckodriver + W3C WebDriver（零依赖协议） |
+| Windows | 系统 Edge（Chromium 内核） | Playwright `channel: 'msedge'`（规划中） |
+| 兜底 | Playwright chromium | `npx playwright install chromium`（一次性下载） |
+
+geckodriver 安装（任选，~5MB）：
+```sh
+# 从 GitHub releases 下载到项目 bin/（git 已忽略，不入库）
+curl -sL -o geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.37.1/geckodriver-v0.37.1-linux64.tar.gz
+tar xzf geckodriver.tar.gz && rm geckodriver.tar.gz
+# 或 Arch：sudo pacman -S geckodriver
+```
 
 ## 已知局限（易碎层声明）
 

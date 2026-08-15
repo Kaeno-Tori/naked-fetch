@@ -9,12 +9,13 @@ import { fetchPage, searchWeb } from './index.js';
 
 async function cmdFetch(args) {
   const url = args._[1];
-  if (!url) { console.error("用法: web-tool fetch <url> [--timeout N] [--raw] [--js] [--no-auto-js] [--json]"); process.exit(2); }
+  if (!url) { console.error("用法: web-tool fetch <url> [--timeout N] [--raw] [--js] [--engine auto|firefox|chromium] [--json]"); process.exit(2); }
   const r = await fetchPage(url, {
     timeout: args.timeout || 30,
     raw: args.raw === true,
     js: args.js === true,
     noAutoJs: args["no-auto-js"] === true,
+    engine: args.engine || 'auto',
   });
   if (!r.success) {
     if (args.json) { console.log(JSON.stringify(r)); return; }
