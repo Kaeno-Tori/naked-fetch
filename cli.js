@@ -1,15 +1,15 @@
 #!/usr/bin/env node
-// cli.js — web-tool 命令行入口
+// cli.js — naked-fetch 命令行入口
 // 用法:
-//   web-tool fetch <url> [--timeout N] [--raw] [--js] [--no-auto-js] [--json]
-//   web-tool search <query> [--count N] [--engine bing|ddg|google|baidu] [--json]
-//   web-tool extract <url> [--timeout N] [--json]   # 同 fetch（默认行为）
+//   naked-fetch fetch <url> [--timeout N] [--raw] [--js] [--no-auto-js] [--json]
+//   naked-fetch search <query> [--count N] [--engine bing|ddg|google|baidu] [--json]
+//   naked-fetch extract <url> [--timeout N] [--json]   # 同 fetch（默认行为）
 
 import { fetchPage, searchWeb } from './index.js';
 
 async function cmdFetch(args) {
   const url = args._[1];
-  if (!url) { console.error("用法: web-tool fetch <url> [--timeout N] [--raw] [--js] [--engine auto|firefox|chromium] [--json]"); process.exit(2); }
+  if (!url) { console.error("用法: naked-fetch fetch <url> [--timeout N] [--raw] [--js] [--engine auto|firefox|chromium] [--json]"); process.exit(2); }
   const r = await fetchPage(url, {
     timeout: args.timeout || 30,
     raw: args.raw === true,
@@ -42,7 +42,7 @@ async function cmdFetch(args) {
 
 async function cmdSearch(args) {
   const q = args._[1];
-  if (!q) { console.error("用法: web-tool search <query> [--count N] [--engine bing|ddg|google|baidu] [--json]"); process.exit(2); }
+  if (!q) { console.error("用法: naked-fetch search <query> [--count N] [--engine bing|ddg|google|baidu] [--json]"); process.exit(2); }
   const r = await searchWeb(q, { count: args.count || 5, engine: args.engine || "bing" });
   if (args.json) { console.log(JSON.stringify(r, null, 2)); return; }
   if (!r.success) {
@@ -71,13 +71,13 @@ const sub = args._[0];
 if (sub === "fetch" || sub === "extract") await cmdFetch(args);
 else if (sub === "search") await cmdSearch(args);
 else {
-  console.log(`web-tool — AI 专属网页抓取器（零依赖核心，Node >= 18）
+  console.log(`naked-fetch — AI 专属网页抓取器（零依赖核心，Node >= 18）
 
 用法:
-  web-tool fetch <url> [--timeout N] [--raw] [--js] [--no-auto-js] [--json]
+  naked-fetch fetch <url> [--timeout N] [--raw] [--js] [--no-auto-js] [--json]
       # 抓取并提取为 AI 友好文本；SPA 空壳自动尝试 Playwright 渲染（--js 强制，--no-auto-js 关闭）
-  web-tool search <query> [--count N] [--engine bing|ddg|google|baidu] [--json]
-  web-tool extract <url> [--timeout N] [--json]   # 同 fetch（默认行为）
+  naked-fetch search <query> [--count N] [--engine bing|ddg|google|baidu] [--json]
+  naked-fetch extract <url> [--timeout N] [--json]   # 同 fetch（默认行为）
 
 特性:
   - 完整浏览器指纹：UA×sec-ch-ua 联动池、Sec-Fetch-*、cookie 会话、随机轮换
@@ -89,6 +89,6 @@ else {
   - --raw 输出原始 HTML；--json 输出结构化结果
 
 作为库使用:
-  import { fetchPage, searchWeb, extractReadable } from 'web-tool'
+  import { fetchPage, searchWeb, extractReadable } from 'naked-fetch'
 `);
 }

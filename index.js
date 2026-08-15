@@ -1,4 +1,4 @@
-// index.js — web-tool 可编程 API
+// index.js — naked-fetch 可编程 API
 // 组合 core/ 各层：抓取 + 提取 + SPA 检测 + 可选浏览器兜底。
 // 零依赖（playwright 可选），Node >= 18。
 

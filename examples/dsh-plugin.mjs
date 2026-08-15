@@ -1,4 +1,4 @@
-// examples/dsh-plugin.mjs — 把 web-tool 注册为 DeepSeek Harness 动态工具
+// examples/dsh-plugin.mjs — 把 naked-fetch 注册为 DeepSeek Harness 动态工具
 //
 // 这是真实运行过的接入代码（webt-1 插件），说明：
 //   - harness.defineTool() 包装后 harness.registerTool(ctx, tool) 注册
@@ -10,7 +10,7 @@
 // 在 DSH 会话中用 cordis_define 定义（code.host 为此函数体），cordis_run 激活。
 // 使用前把 WEB_TOOL 指向你本项目的 cli.js 绝对路径。
 
-const WEB_TOOL = '/absolute/path/to/web-tool/cli.js'
+const WEB_TOOL = '/absolute/path/to/naked-fetch/cli.js'
 
 return {
   apply(ctx) {
@@ -33,12 +33,12 @@ return {
       const out = handle.collected.stdout ? handle.collected.stdout.readFrom(0).text : ''
       if (outcome.exitCode !== 0) {
         const err = handle.collected.stderr ? handle.collected.stderr.readFrom(0).text : ''
-        throw new Error(`web-tool failed (exit ${outcome.exitCode}): ${(err || out).trim().slice(0, 800)}`)
+        throw new Error(`naked-fetch failed (exit ${outcome.exitCode}): ${(err || out).trim().slice(0, 800)}`)
       }
       try {
         return JSON.parse(out)
       } catch (e) {
-        throw new Error(`web-tool output not JSON: ${out.slice(0, 400)}`)
+        throw new Error(`naked-fetch output not JSON: ${out.slice(0, 400)}`)
       }
     }
 

@@ -1,4 +1,4 @@
-# web-tool — AI 专属网页抓取器
+# naked-fetch — AI 专属网页抓取器
 
 零依赖（Node ≥ 18）的网页抓取器，**为 LLM/AI 设计**：抓取 → 去噪提取 → 结构化文本，让模型直接"读懂"网页。
 
@@ -8,7 +8,7 @@
 
 ## 为什么是"AI 专属"
 
-| 通用爬虫 | web-tool |
+| 通用爬虫 | naked-fetch |
 |---|---|
 | 输出原始 HTML/JSON，模型自己解析 | 输出**去噪 markdown 风格文本**：标题层级/链接/表格/列表保留，script/nav/footer/aside 删除 |
 | 反爬靠无头浏览器渲染（重、慢） | **指纹伪装**（UA×sec-ch-ua 联动、Sec-Fetch-*、cookie 会话）+ 限速重试，零依赖 |
@@ -17,18 +17,18 @@
 ## 安装
 
 ```sh
-npm i web-tool          # 或 npx web-tool ...（CLI 零安装）
+npm i naked-fetch          # 或 npx naked-fetch ...（CLI 零安装）
 ```
 
 ## CLI
 
 ```sh
-web-tool fetch <url> [--timeout N] [--raw] [--js] [--no-auto-js] [--json]
-web-tool search <query> [--count N] [--engine bing|ddg|google|baidu] [--json]
+naked-fetch fetch <url> [--timeout N] [--raw] [--js] [--no-auto-js] [--json]
+naked-fetch search <query> [--count N] [--engine bing|ddg|google|baidu] [--json]
 ```
 
 ```sh
-$ web-tool fetch https://example.com
+$ naked-fetch fetch https://example.com
 URL: https://example.com/
 状态: 200 | 耗时: 1819ms
 标题: Example Domain
@@ -42,7 +42,7 @@ This domain is for use in documentation examples without needing permission. Avo
 ## 库 API
 
 ```js
-import { fetchPage, searchWeb, extractReadable } from 'web-tool'
+import { fetchPage, searchWeb, extractReadable } from 'naked-fetch'
 
 // 抓取 + 提取（SPA 空壳自动尝试 Playwright 兜底）
 const page = await fetchPage('https://example.com/article', { timeout: 30 })

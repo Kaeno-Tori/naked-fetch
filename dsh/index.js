@@ -1,20 +1,20 @@
-// web-tool-dsh — DeepSeek Harness 插件
-// 把 web-tool（零依赖 AI 网页抓取器）注册为 web_fetch / web_search_bing 两个工具。
+// naked-fetch-dsh — DeepSeek Harness 插件
+// 把 naked-fetch（零依赖 AI 网页抓取器）注册为 web_fetch / web_search_bing 两个工具。
 //
 // 函数插件格式（与 DSH 官方包同构）：
 //   export const name / inject / Config / apply
 // 注册路径：ctx.tools.register(ToolDefinition)——与 @deepseek-ai/dsh-tool-cordis 同构。
 //
-// 依赖：web-tool（npm 主包），通过 createRequire 定位其 cli.js。
+// 依赖：naked-fetch（npm 主包），通过 createRequire 定位其 cli.js。
 
 import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
 import { defineTool } from '@deepseek-ai/dsh-tools'
 
-export const name = 'web-tool-dsh'
+export const name = 'naked-fetch-dsh'
 export const inject = ['tools', 'subprocess']
 
-/** 插件配置：webToolPath 覆盖 cli.js 定位（默认取依赖 web-tool 包内 cli.js）。 */
+/** 插件配置：webToolPath 覆盖 cli.js 定位（默认取依赖 naked-fetch 包内 cli.js）。 */
 export const Config = {
   webToolPath: '',
 }
@@ -24,8 +24,8 @@ export function apply(ctx, config) {
 
   function locateCli() {
     if (config?.webToolPath) return config.webToolPath
-    // web-tool 主包导出 ./package.json（见其 exports）
-    const pkgPath = require.resolve('web-tool/package.json')
+    // naked-fetch 主包导出 ./package.json（见其 exports）
+    const pkgPath = require.resolve('naked-fetch/package.json')
     return join(dirname(pkgPath), 'cli.js')
   }
   const WEB_TOOL = locateCli()
@@ -50,12 +50,12 @@ export function apply(ctx, config) {
     const out = handle.collected.stdout ? handle.collected.stdout.readFrom(0).text : ''
     if (outcome.exitCode !== 0) {
       const err = handle.collected.stderr ? handle.collected.stderr.readFrom(0).text : ''
-      throw new Error(`web-tool failed (exit ${outcome.exitCode}): ${(err || out).trim().slice(0, 800)}`)
+      throw new Error(`naked-fetch failed (exit ${outcome.exitCode}): ${(err || out).trim().slice(0, 800)}`)
     }
     try {
       return JSON.parse(out)
     } catch (e) {
-      throw new Error(`web-tool output not JSON: ${out.slice(0, 400)}`)
+      throw new Error(`naked-fetch output not JSON: ${out.slice(0, 400)}`)
     }
   }
 

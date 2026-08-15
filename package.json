@@ -1,11 +1,11 @@
 {
-  "name": "web-tool",
+  "name": "naked-fetch",
   "version": "0.1.0",
-  "description": "AI 专属网页抓取器：零依赖 Node CLI/库，完整浏览器指纹 + HTML→AI 友好文本提取 + SPA 检测 + 可选 Playwright 渲染",
+  "description": "AI 专属网页抓取器：零依赖（不穿依赖直接抓）。完整浏览器指纹 + HTML→AI 友好文本提取 + SPA 检测 + Via 模式复用系统内核",
   "type": "module",
   "main": "index.js",
   "bin": {
-    "web-tool": "cli.js"
+    "naked-fetch": "cli.js"
   },
   "exports": {
     ".": "./index.js",
