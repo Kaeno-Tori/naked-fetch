@@ -29,6 +29,7 @@
     "lint": "node --check cli.js && node --check index.js && node --check core/*.js"
   },
   "keywords": [
+    "deepseek-harness",
     "web",
     "scraper",
     "crawler",

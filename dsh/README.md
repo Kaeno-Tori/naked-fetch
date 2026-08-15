@@ -46,4 +46,4 @@ npm publish    # 依赖 naked-fetch 先发
 
 ## Credits
 
-由 DeepSeek AI agent 在 DeepSeek Harness 内协作开发——本插件即"agent 给自己写插件"的产物。
+由运行在 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 上的 AI agent 协作开发——本插件即"agent 给自己写插件"的产物。
