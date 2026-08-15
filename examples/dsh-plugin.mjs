@@ -47,7 +47,7 @@ return {
     }
 
     harness.registerTool(ctx, harness.defineTool({
-      name: 'web_fetch',
+      name: 'naked_fetch',
       description: '抓取网页并提取为 AI 友好的去噪文本（标题层级/链接/表格/列表）。完整浏览器指纹、SSRF 防护、限速重试；SPA 空壳自动提示，js=true 强制浏览器渲染（需 playwright）。',
       parameters: {
         type: 'object',
@@ -107,8 +107,8 @@ return {
     }))
 
     harness.registerTool(ctx, harness.defineTool({
-      name: 'web_search_bing',
-      description: 'Bing 网页搜索（HTML 解析，无 API key）。返回 title/url/snippet 候选，作为初筛；精读用 web_fetch。',
+      name: 'naked_search',
+      description: 'Bing 网页搜索（HTML 解析，无 API key）。返回 title/url/snippet 候选，作为初筛；精读用 naked_fetch。',
       parameters: {
         type: 'object',
         properties: {

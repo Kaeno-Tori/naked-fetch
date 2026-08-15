@@ -19,7 +19,7 @@ npm i naked-fetch-dsh
 # ~/.dsh/profiles/<profile>/package.json → dsh.profile.bundles 加 "naked-fetch-dsh"
 ```
 
-装好后 agent 获得 `web_fetch`（抓取+提取）与 `web_search_bing`（无 key 搜索）两个工具。
+装好后 agent 获得 `naked_fetch`（抓取+提取）与 `naked_search`（无 key 搜索）两个工具。
 
 ## DeepSeek Harness 集成
 

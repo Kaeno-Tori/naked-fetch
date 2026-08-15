@@ -1,6 +1,6 @@
 # naked-fetch-dsh — DeepSeek Harness 适配插件
 
-把 [naked-fetch](../README.md)（极简智能体浏览器）注册为 DSH agent 的 **`web_fetch`** / **`web_search_bing`** 两个工具。
+把 [naked-fetch](../README.md)（极简智能体浏览器）注册为 DSH agent 的 **`naked_fetch`** / **`naked_search`** 两个工具。
 
 **引擎内嵌**：本包自带全部代码（vendor/），`npm i naked-fetch-dsh` 即得，无外部依赖。
 
@@ -17,7 +17,7 @@ npm i -g naked-fetch-dsh        # 或装到 DSH profile 的 node_modules
 #    "dsh": { "profile": { "bundles": [..., "naked-fetch-dsh"] } }
 ```
 
-重启 dsh 后，所有会话的 agent 都能调用 `web_fetch` / `web_search_bing`。
+重启 dsh 后，所有会话的 agent 都能调用 `naked_fetch` / `naked_search`。
 
 ### 方式 B：agent 自助（动态插件，单会话）
 
@@ -29,8 +29,8 @@ npm i -g naked-fetch-dsh        # 或装到 DSH profile 的 node_modules
 
 | 工具 | 参数 | 说明 |
 |---|---|---|
-| `web_fetch` | url*, timeout, raw, js, engine | 抓取 + AI 去噪提取；SPA 空壳自动渲染兜底（firefox→chromium，Via 模式） |
-| `web_search_bing` | query*, count, engine | 网页搜索（bing/baidu/ddg/google），无 API key |
+| `naked_fetch` | url*, timeout, raw, js, engine | 抓取 + AI 去噪提取；SPA 空壳自动渲染兜底（firefox→chromium，Via 模式） |
+| `naked_search` | query*, count, engine | 网页搜索（bing/baidu/ddg/google），无 API key |
 
 ## 设计
 
