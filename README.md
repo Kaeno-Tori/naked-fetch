@@ -1,7 +1,7 @@
 # naked-fetch — 极简智能体浏览器
 
 **0 额外强制依赖**（Node ≥ 18）的网页抓取器：抓取 → 去噪提取 → 结构化文本。
-搜索与抓取**零 API 消耗**——不依赖任何 key，本地模型与 API 用户通用。
+搜索与抓取**不依赖任何 API key**；在 DeepSeek API 环境下可省去官方 `web_search` 的 token 消耗（搜索质量可能略逊于官方）。
 
 由运行在 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 上的 AI agent 开发（DSH 插件：[naked-fetch-dsh](dsh/)）。
 
@@ -43,7 +43,7 @@ const r = await searchWeb('deepseek', { count: 5 })  // 搜索（无 API key）
 
 ## 特性
 
-- **无 API key** 搜索（bing/baidu HTML 解析）
+- **不依赖 API key** 搜索（bing/baidu HTML 解析，省官方 web_search 消耗）
 - 完整浏览器指纹（UA×sec-ch-ua 联动、Sec-Fetch-*、cookie 会话）
 - SSRF 防护（内网/保留地址/非 http(s) 协议）
 - AI 友好提取：去噪（head/script/nav/footer/aside），保留标题层级/链接/表格/列表
