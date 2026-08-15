@@ -18,10 +18,12 @@ const PRIVATE_RANGES = [
 ];
 const BLOCKED_HOSTS = new Set(["localhost", "localhost.localdomain", "0.0.0.0", "::1", "[::1]"]);
 
-/** 内网/保留地址 → true（拒绝抓取）。 */
+/** 内网/保留地址或危险协议 → true（拒绝抓取）。 */
 export function isInternalUrl(url) {
   try {
     const u = new URL(url);
+    // 协议白名单：只允许 http/https（file://、ftp://、data: 等一律拒绝）
+    if (u.protocol !== "http:" && u.protocol !== "https:") return true;
     const host = u.hostname.replace(/^\[|\]$/g, "");
     if (BLOCKED_HOSTS.has(host.toLowerCase())) return true;
     if (host.endsWith(".local") || host.endsWith(".internal")) return true;

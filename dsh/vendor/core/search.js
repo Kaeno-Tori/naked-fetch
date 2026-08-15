@@ -101,6 +101,9 @@ export async function searchWeb(query, {
     duration_ms: Date.now() - start,
     engine,
     search_url: url,
+    // 显式区分"解析失败"（页面拿到了但结构变了/反爬）与"真无结果"：
+    // 解析失败时 success=false + error='parse_error'，调用方可提示重试或手动访问
+    error: results.length === 0 ? "parse_error" : undefined,
     hint: results.length ? undefined : "未能自动解析搜索结果，可用 fetch 手动访问: " + url,
   };
 }
