@@ -1,5 +1,8 @@
 # naked-fetch — AI 专属网页抓取器
 
+![npm](https://img.shields.io/npm/v/naked-fetch) ![npm](https://img.shields.io/npm/dm/naked-fetch) ![license](https://img.shields.io/npm/l/naked-fetch)
+
+
 **0 额外强制依赖**（Node ≥ 18）的网页抓取器，**为 LLM/AI 设计**：抓取 → 去噪提取 → 结构化文本，让模型直接"读懂"网页。
 
 ```
@@ -13,6 +16,26 @@
 | 输出原始 HTML/JSON，模型自己解析 | 输出**去噪 markdown 风格文本**：标题层级/链接/表格/列表保留，script/nav/footer/aside 删除 |
 | 反爬靠无头浏览器渲染（重、慢） | **指纹伪装**（UA×sec-ch-ua 联动、Sec-Fetch-*、cookie 会话）+ 限速重试，零强制依赖 |
 | 渲染成图给模型"看" | 模型读文本就够——**渲染白瞎**，只有 SPA 空壳才需要 JS 执行（可选 Playwright） |
+
+## 由 DSH（DeepSeek Harness）自己安装
+
+**这不是比喻，是字面意思**：本项目的插件是在 DeepSeek Harness 会话里，由运行在其中的 AI agent **给自己安装**的——`cordis_define` 定义、`cordis_run` 激活、工具注册、schema DSL 踩坑、`ctx.tools.register(defineTool(...))` 适配，全部在会话内完成并真实跑通（`web_fetch` / `web_search_bing` 两个工具已在 DSH 环境内实际使用）。
+
+### 安装方式
+
+**A. bundle 安装（一次装好所有会话）**——发布包 [naked-fetch-dsh](dsh/)：
+
+```sh
+npm i naked-fetch-dsh
+# 编辑 ~/.dsh/profiles/<profile>/package.json：
+# "dsh": { "profile": { "bundles": [..., "naked-fetch-dsh"] } }
+```
+
+**B. agent 自助（动态插件，单会话）**——把 [examples/dsh-plugin.mjs](examples/dsh-plugin.mjs) 交给你的 agent：
+
+> 用 `cordis_define`（code.host 为该文件函数体，`WEB_TOOL` 指向 naked-fetch 的 cli.js），然后 `cordis_run`——工具立即在当前会话可用。
+
+装好后 agent 获得 `web_fetch`（抓取 + AI 去噪提取）与 `web_search_bing`（无 API key 搜索）两个工具。
 
 ## 安装
 
@@ -93,10 +116,6 @@ tar xzf geckodriver.tar.gz && rm geckodriver.tar.gz
 ## 生态参照
 
 与 readability / trafilatura / firecrawl / Jina Reader 定位相近，差异点：**零强制依赖、完整指纹伪装、引擎可换、输出专为模型 token 预算优化**。
-
-## DSH（DeepSeek Harness）集成
-
-见 [examples/dsh-plugin.mjs](examples/dsh-plugin.mjs)——把 `fetchPage`/`searchWeb` 注册为 `web_fetch`/`web_search_bing` 动态工具的完整示例（含 JSON schema、canonical output、render、取消信号、超时预算）。
 
 ## 开发
 
