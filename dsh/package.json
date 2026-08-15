@@ -29,7 +29,10 @@
     "scraper",
     "search",
     "ai",
-    "llm"
+    "llm",
+    "ai-agent",
+    "deepseek",
+    "agent-tools"
   ],
   "license": "MIT",
   "engines": {

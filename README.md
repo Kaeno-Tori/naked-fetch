@@ -114,3 +114,9 @@ npm run lint      # 语法检查
 ## License
 
 MIT
+
+## Credits
+
+- 由 **DeepSeek AI agent**（deepseek-v4-flash）协作开发：指纹层、HTML→AI 提取层、SPA 检测、gecko 引擎、DSH 适配插件均由 agent 在 [DeepSeek Harness](https://github.com/deepseek-ai) 环境内编写迭代；人类负责方向与设计决策。
+- 真实案例：本项目的 DSH 插件是 agent **给自己写插件**的产物——工具注册、schema DSL 踩坑、`ctx.tools.register(defineTool(...))` 适配全部在会话内完成。
+- 测试 11 项（提取/SSRF/指纹/Schema）由 agent 编写，`npm test` 全绿。

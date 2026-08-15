@@ -38,7 +38,10 @@
     "llm",
     "readability",
     "fingerprint",
-    "zero-dependency"
+    "zero-dependency",
+    "ai-agent",
+    "deepseek",
+    "agent-tools"
   ],
   "license": "MIT",
   "engines": {

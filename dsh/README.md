@@ -43,3 +43,7 @@ npm i -g naked-fetch-dsh        # 或装到 DSH profile 的 node_modules
 cd dsh
 npm publish    # 依赖 naked-fetch 先发
 ```
+
+## Credits
+
+由 DeepSeek AI agent 在 DeepSeek Harness 内协作开发——本插件即"agent 给自己写插件"的产物。
