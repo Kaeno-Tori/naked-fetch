@@ -34,6 +34,7 @@ const r = await searchWeb('deepseek', { count: 5 })  // 搜索（无 API key）
 
 ## 特性
 
+- **无 API key** 搜索（bing/baidu HTML 解析）
 - 完整浏览器指纹（UA×sec-ch-ua 联动、Sec-Fetch-*、cookie 会话）
 - SSRF 防护（内网/保留地址/非 http(s) 协议）
 - AI 友好提取：去噪（head/script/nav/footer/aside），保留标题层级/链接/表格/列表
